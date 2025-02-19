@@ -1,0 +1,35 @@
+{% load static markdown_deux_tags %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generation</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 style="color: black;">Generation</h1>
+            <nav>
+                <a href="{% url 'profile' %}">profile</a>
+                <a href="{% url 'authorization' %}">login</a>
+                <a href="{% url 'index' %}">update</a>
+            </nav>
+        </header>
+
+        <main class="posts">
+            {% for post in posts %}
+                <div class="post">
+                    <p>{{ post.content|markdown }}</p>
+                    <div class="meta">
+                        <span class="user">@{{ post.user }}</span>
+                        <span class="time">{{ post.timestamp }}</span>
+                    </div>
+                </div>
+            {% endfor %}
+        </main>
+    </div>
+</body>
+</html>
+

@@ -1,6 +1,11 @@
 # Определение версии Docker Compose и начало описания сервисов
 version: '3'
 
+# docker-compose run --rm django python manage.py createsuperuser
+
+# docker-compose run --rm django python manage.py migrate
+
+
 services:
   django:
     # Сборка образа для сервиса django из текущей директории
