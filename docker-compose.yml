@@ -34,5 +34,11 @@ services:
     volumes:
       - pgdbdata:/var/lib/postgresql/data/
 
+  adminer:
+    image: adminer
+    restart: always   #c 26 по 30 строку(вставлен новый фрагмент)
+    ports:
+      - 8080:8080
+
 volumes:
   pgdbdata: null
