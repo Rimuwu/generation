@@ -1,29 +1,38 @@
+# Определение версии Docker Compose и начало описания сервисов
 version: '3'
 
 services:
-  db:
-    image: postgres
-    volumes:
-      - db_data:/var/lib/postgresql/data/
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
-
-  web:
-    build: 
-      context: ./Generation
+  django:
+    # Сборка образа для сервиса django из текущей директории
+    build:
+      context: .
+      dockerfile: Generation/Dockerfile
+    # Задание имени контейнера для сервиса django
+    container_name: django
+    # Задание команды, которую нужно запустить при запуске контейнера для сервиса django
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/code
+      - .:/usr/src/app
+    # Открытие порта на хостовой машине и перенаправление на порт в контейнере
     ports:
-      - "8000:8000"
+      - 8000:8000
+    # Зависимость от другого сервиса
     depends_on:
-      - db
+      - pgdb
+
+  pgdb:
+    # Использование готового образа postgres
+    image: postgres
+    # Задание переменных окружения для контейнера с postgres
     environment:
-      DJANGO_SETTINGS_MODULE: generation.settings
-      DATABASE_URL: postgres://postgres:postgres@db:5432/postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+     # Задание имени контейнера для сервиса pgdb
+    container_name: pgdb
+     # Связывание тома с директорией в контейнере для сохранения данных postgres
+    volumes:
+      - pgdbdata:/var/lib/postgresql/data/
 
 volumes:
-  db_data:
-
+  pgdbdata: null
