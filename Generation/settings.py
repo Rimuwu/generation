@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Generation',
     'django.contrib.postgres',
+    'markdown_deux'
 ]
 
 MIDDLEWARE = [
