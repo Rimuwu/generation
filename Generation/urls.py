@@ -24,6 +24,8 @@ urlpatterns = [
 
     path('profile/<str:username>/', views.profile, name='profile'),
     path('register/', views.register, name='register'),
-    path('authorization/', views.authorization, name='authorization'),
+    path('authorization/', views.register, name='authorization'),
     path('create_post/', views.create_post, name='create_post'),
+    path('create_user/', views.create_user, name='create_user'),
+    path('logout/', views.logout_user, name='logout'),
 ]

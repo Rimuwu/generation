@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            background-color: #333;
+            color: #fff;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .registration-box {
+            background: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color: #000;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #444;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #555;
+        }
+        .messages {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 10px;
+        }
+        .messages li {
+            padding: 8px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+        .messages li.error {
+            background-color: #fdd;
+            color: #900;
+        }
+        .messages li.success {
+            background-color: #dfd;
+            color: #090;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="registration-box">
+        <h2>Регистрация</h2>
+        <form method="post" action="{% url 'create_user' %}" id="registration-form">
+            {% csrf_token %}
+            <div class="input-group">
+                <label for="username">Имя пользователя</label>
+                <input type="text" name="username" id="username" value="{{ username|default:'' }}" required>
+            </div>
+            <div class="input-group">
+                <label for="password1">Пароль</label>
+                <input type="password" name="password1" id="password1" required>
+            </div>
+            <div class="input-group">
+                <label for="password2">Подтверждение пароля</label>
+                <input type="password" name="password2" id="password2" required>
+            </div>
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+    </div>
+</div>
+<script>
+    document.getElementById('registration-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        let formData = new FormData(document.getElementById('registration-form'));
+        fetch('/create_user/', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                window.location.href = '/';
+            } else {
+                let messages = document.querySelector('.messages');
+                messages.innerHTML = '';
+                data.messages.forEach(message => {
+                    let li = document.createElement('li');
+                    li.classList.add(message.type);
+                    li.textContent = message.text;
+                    messages.appendChild(li);
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>
+
