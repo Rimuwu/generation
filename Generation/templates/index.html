@@ -10,9 +10,9 @@
 <body>
     <div class="container">
         <header>
-            <h1 style="color: black;">Generation</h1>
+            <h1 style="color: black;"><a href="{% url 'index' %}">Generation</a></h1>
             <nav>
-                <a href="{% url 'profile' %}">profile</a>
+                <a href="{% url 'profile' request.user.username %}">profile</a>
                 <a href="{% url 'authorization' %}">login</a>
                 <a href="{% url 'index' %}">update</a>
             </nav>

@@ -22,7 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
 
-    path('profile/', views.profile, name='profile'),
+    path('profile/<str:username>/', views.profile, name='profile'),
     path('register/', views.register, name='register'),
     path('authorization/', views.authorization, name='authorization'),
+    path('create_post/', views.create_post, name='create_post'),
 ]
