@@ -1,38 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+
 {% load static %}
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Generation</title>
-  <link rel="stylesheet" href="{% static 'profile.css' %}">
-</head>
-<body>
-<header>
-  <h1><a href="{% url 'index' %}">Generation</a></h1>
-  <nav>
-    <a href="{% url 'profile' user.username %}">profile</a>
-  </nav>
-</header>
-
 <div class="profile-container">
-  <!-- Шапка профиля -->
   <div class="bg-image">
     <!-- Можно добавить картинку фоном -->
   </div>
 
   <div class="profile-header">
-    <!-- Аватар -->
     <div class="avatar">
-      <!-- Можно выводить буквы ника, картинку и т.д. -->
       Avatar
     </div>
-    <!-- Имя пользователя -->
     <h2>{{ profile_user.username|default:"User" }}</h2>
   </div>
 
-  <!-- Если это профиль владельца, показываем форму для создания поста -->
   {% if request.user == profile_user %}
     <form class="new-post-form" method="post" action="{% url 'create_post' %}">
       {% csrf_token %}
@@ -41,20 +25,28 @@
     </form>
   {% endif %}
 
-  <!-- Список постов -->
   <div class="post-list">
     {% for post in posts %}
       <div class="post-item">
-        <div class="post-meta">
-          @{{ post.user.username }} - {{ post.timestamp|date:"H:i d.m.Y" }}
+        <div class="post-meta" style="display: flex; justify-content: space-between; align-items: center;">
+          <span>@{{ post.user.username }} - {{ post.timestamp|date:"H:i d.m.Y" }}</span>
+
+          {% if request.user == post.user %}
+            <form method="post" action="{% url 'delete_post' post.id %}" class="delete-post-form" style="margin: 0;">
+              {% csrf_token %}
+              <button type="submit" class="delete-post-button btn" style="background: none; border: none; padding: 0;">
+                <img src="{% static 'icons8-trash-128.png' %}" alt="Delete" class="delete-icon" style="width: 20px; height: 20px;">
+              </button>
+            </form>
+          {% endif %}
         </div>
+
         <div class="post-content">
-          {{ post.content }}
+          {{ post.content|safe }}
         </div>
       </div>
     {% endfor %}
   </div>
 </div>
-</body>
-</html>
+{% endblock %}
 

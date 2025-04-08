@@ -1,13 +1,23 @@
 /* static/styles.css */
+html {
+    height: 100%;
+}
+
 body {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    min-height: 100vh;
     background-color: #333;
     color: white;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    height: 100%;
 }
 
 .container {
+    flex: 1;
     max-width: 1200px;
     margin: 0 auto;
     background: #aaa;
@@ -47,3 +57,29 @@ nav a {
     font-size: 0.8em;
     color: #555;
 }
+
+main.posts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+main.posts .post {
+    background: #ccc;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background: #222;
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    margin-top: auto;
+}
+
