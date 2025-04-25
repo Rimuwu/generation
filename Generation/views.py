@@ -14,8 +14,7 @@ def index(request):
     if not request.user.is_authenticated:
         posts = Post.objects.all()
     else:
-        posts = Post.objects.exclude(user=request.user)
-        posts = random.sample(list(posts), min(20, len(posts)))
+        posts = Post.objects.order_by('-timestamp').exclude(user=request.user)
     return render(request, 'index.html', {
         'posts': posts,
     })

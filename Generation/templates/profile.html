@@ -35,7 +35,7 @@
             <form method="post" action="{% url 'delete_post' post.id %}" class="delete-post-form" style="margin: 0;">
               {% csrf_token %}
               <button type="submit" class="delete-post-button btn" style="background: none; border: none; padding: 0;">
-                <img src="{% static 'icons8-trash-128.png' %}" alt="Delete" class="delete-icon" style="width: 20px; height: 20px;">
+                <!-- <img src="{% static 'icons8-trash-128.png' %}" alt="Delete" class="delete-icon" style="width: 20px; height: 20px;"> -->
               </button>
             </form>
           {% endif %}
